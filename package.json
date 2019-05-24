@@ -1,0 +1,58 @@
+{
+  "name": "ask-vscode-sever",
+  "displayName": "Ask Visual Studio Code (Server)",
+  "description": "An extension that allows external programs to talk to it",
+  "version": "0.0.1",
+  "publisher": "keiran-oleary",
+  "licence": "open",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kizza/ask-vscode-server.git"
+  },
+  "engines": {
+    "vscode": "^1.32.0"
+  },
+  "icon": "images/icon.png",
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.startServer",
+    "onCommand:extension.stopServer",
+    "*"
+  ],
+  "keywords": [
+    "language",
+    "server",
+    "vim"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.startServer",
+        "title": "Start 'Ask vscode' Server"
+      },
+      {
+        "command": "extension.stopServer",
+        "title": "Stop 'Ask vscode' Server"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "npm run compile & node ./node_modules/vscode/bin/test",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "typescript": "^3.3.1",
+    "vscode": "^1.1.28",
+    "tslint": "^5.12.1",
+    "@types/node": "^10.12.21",
+    "@types/mocha": "^2.2.42"
+  },
+  "dependencies": {}
+}
