@@ -70,6 +70,11 @@ export const setSelection = (position: vscode.Position) => {
   }
 };
 
+export const getAllText = () => {
+  const activeEditor = vscode.window.activeTextEditor!;
+  return activeEditor.document.getText();
+};
+
 export const setCurrentBuffer = (buffer: string) => {
   const activeEditor = vscode.window.activeTextEditor!;
 

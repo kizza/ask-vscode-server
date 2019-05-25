@@ -71,6 +71,7 @@ export interface CodeActionResponse extends Response {
 export interface CodeAction {
   title: string;
   textChanges: TextChange[];
+  buffer?: string;
 }
 
 export const isCodeActionResponse = (

@@ -6,7 +6,8 @@ import {
   setCurrentBuffer,
   switchToWorkspace,
   wait,
-  findFile
+  findFile,
+  getAllText
 } from "./util";
 import {
   ChangeWorkspaceRequest,
@@ -18,6 +19,8 @@ import {
   CodeActionResponse,
   CodeAction
 } from "./common";
+
+const { assign } = Object;
 
 const startServer = (notify: boolean = true) => {
   if (server.isRunning()) {
@@ -60,8 +63,8 @@ export function activate(context: vscode.ExtensionContext) {
   const updateStatusBarItem = () => {
     statusBarItem.color = "#3399cc";
     statusBarItem.text = server.isRunning()
-      ? `$(broadcast) Vim server connected`
-      : `$(circle-slash) Vim server not connected`;
+      ? `$(broadcast) Ask vscode running`
+      : `$(circle-slash) Ask vscode not running`;
     statusBarItem.show();
   };
 
@@ -160,11 +163,19 @@ const codeActionRequestHandler = (
 
 const makeCodeAction = (codeAction: vscode.CodeAction): CodeAction => {
   try {
-    const action = {
-      title: `${codeAction.title} (${codeAction.command!.command})`,
-      textChanges: codeAction!.command!.arguments![0].changes[0].textChanges
-    };
-    return action;
+    switch (codeAction!.command!.command) {
+      case "_typescript.applyFixAllCodeAction":
+        return {
+          title: `${codeAction.title}`,
+          buffer: getAllText(),
+          textChanges: []
+        };
+      default:
+        return {
+          title: `${codeAction.title}`,
+          textChanges: codeAction!.command!.arguments![0].changes[0].textChanges
+        };
+    }
   } catch (e) {
     return {
       title: `${codeAction.title} (Can't yet ${codeAction.command!.command})`,
